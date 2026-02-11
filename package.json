@@ -1,0 +1,18 @@
+{
+    "name": "phire-angular-version-chrome-extension",
+    "version": "1.0.1",
+    "description": "Chrome extension to inspect Angular version",
+    "main": "index.js",
+    "scripts": {
+        "package": "mkdir -p dist && cd src && zip -r ../dist/phire-angular-version-extension.zip .",
+        "clean": "rm -rf dist phire-angular-version-extension.zip",
+        "build": "npm run package"
+    },
+    "keywords": [
+        "chrome",
+        "extension",
+        "angular"
+    ],
+    "author": "",
+    "license": "ISC"
+}
