@@ -1,6 +1,6 @@
 {
     "name": "phire-angular-version-chrome-extension",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "description": "Chrome extension to inspect Angular version",
     "main": "index.js",
     "scripts": {
