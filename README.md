@@ -19,6 +19,14 @@ A Chrome extension to quickly identify the Angular version of the current web pa
 3. Click **Load unpacked**.
 4. Select the `src/` folder in this repository.
 
+### Installing from a Release Zip
+1. Download `phire-angular-version-extension.zip` from the latest GitHub release.
+2. Unzip the file to any local folder.
+3. Open Chrome and navigate to `chrome://extensions/`.
+4. Enable **Developer mode** (top right toggle).
+5. Click **Load unpacked**.
+6. Select the unzipped folder.
+
 ### Packaging for Release
 To create a fresh `.zip` file for the Chrome Web Store:
 ```bash
