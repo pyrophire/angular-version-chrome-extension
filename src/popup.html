@@ -1,26 +1,232 @@
 <!doctype html>
 <html>
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Angular Inspector</title>
     <style>
+      :root {
+        --bg: #f7f5ef;
+        --card: #fffef9;
+        --ink: #1e2330;
+        --muted: #626a7a;
+        --accent: #006d77;
+        --accent-strong: #005c64;
+        --warn: #b45309;
+        --danger: #b91c1c;
+        --ok: #166534;
+        --border: #d9d3c5;
+      }
+
       body {
-        width: 100px;
-        padding: 10px;
-        font-family: sans-serif;
+        width: 420px;
+        max-width: 420px;
+        margin: 0;
+        padding: 14px;
+        font-family: "Avenir Next", "Segoe UI", sans-serif;
+        background: radial-gradient(circle at top left, #fff9d8, var(--bg) 45%);
+        color: var(--ink);
       }
-      .version-container {
-        font-size: 2em;
-        font-weight: bold;
-        color: #0066ff;
+
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
       }
-      .label {
+
+      h1 {
+        margin: 0 0 10px;
+        font-size: 17px;
+        letter-spacing: 0.2px;
+      }
+
+      h2 {
+        margin: 12px 0 6px;
+        font-size: 13px;
+      }
+
+      .status-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .status {
         font-size: 12px;
-        color: #666;
+        font-weight: 600;
+      }
+
+      .version {
+        font-size: 28px;
+        font-weight: bold;
+        color: var(--accent);
+      }
+
+      .subtle {
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px 10px;
+        margin-top: 8px;
+      }
+
+      .mono {
+        font-family: "SF Mono", Menlo, monospace;
+        font-size: 11px;
+      }
+
+      .warnings {
+        margin-top: 8px;
+        padding-left: 18px;
+        font-size: 12px;
+      }
+
+      .warnings li {
+        margin-bottom: 4px;
+      }
+
+      .toolbar {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+        margin-top: 10px;
+      }
+
+      button,
+      select,
+      a {
+        font-family: inherit;
+        font-size: 12px;
+      }
+
+      button {
+        border: 1px solid var(--border);
+        background: #fff;
+        color: var(--ink);
+        border-radius: 8px;
+        padding: 6px 8px;
+        cursor: pointer;
+      }
+
+      button.primary {
+        background: var(--accent);
+        color: #fff;
+        border-color: var(--accent);
+      }
+
+      button.primary:hover {
+        background: var(--accent-strong);
+      }
+
+      select {
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 6px;
+      }
+
+      .dashboard {
+        margin-top: 12px;
+        max-height: 200px;
+        overflow: auto;
+        border-top: 1px dashed var(--border);
+        padding-top: 8px;
+      }
+
+      .tab-item {
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 6px;
+        margin-bottom: 6px;
+        background: #fff;
+      }
+
+      .tab-item strong {
+        display: block;
+        font-size: 12px;
+      }
+
+      .tab-item span {
+        display: block;
+        font-size: 11px;
+        color: var(--muted);
+      }
+
+      .ok {
+        color: var(--ok);
+      }
+
+      .warn {
+        color: var(--warn);
+      }
+
+      .danger {
+        color: var(--danger);
       }
     </style>
   </head>
   <body>
-    <div class="label">Angular Version:</div>
-    <div id="version" class="version-container">Detecting...</div>
+    <div class="card">
+      <h1>Angular Inspector</h1>
+      <div class="status-row">
+        <div id="status" class="status">Scanning active tab...</div>
+        <div id="version" class="version">...</div>
+      </div>
+      <div id="frameworkLine" class="subtle">Framework: unknown</div>
+      <div id="pageLine" class="subtle mono">Page: ...</div>
+
+      <h2>Runtime Signals</h2>
+      <div class="grid">
+        <div class="subtle">Mode</div>
+        <div id="modeValue">-</div>
+        <div class="subtle">SSR/Hydration</div>
+        <div id="ssrValue">-</div>
+        <div class="subtle">Zone.js</div>
+        <div id="zoneValue">-</div>
+        <div class="subtle">Dependencies</div>
+        <div id="depsValue">-</div>
+      </div>
+
+      <h2>Warnings and Guidance</h2>
+      <ul id="warnings" class="warnings"></ul>
+
+      <div class="toolbar">
+        <button id="refreshBtn" class="primary" type="button">
+          Re-run Scan
+        </button>
+        <button id="copyJsonBtn" type="button">Copy JSON</button>
+        <button id="copyTextBtn" type="button">Copy Text</button>
+        <button id="copyIssueBtn" type="button">Copy Issue Snippet</button>
+        <button id="openDocsBtn" type="button">Open Docs</button>
+      </div>
+
+      <div class="toolbar">
+        <label class="subtle" for="envFilter">Filter tabs:</label>
+        <select id="envFilter">
+          <option value="all">All</option>
+          <option value="local">Local</option>
+          <option value="staging">Staging</option>
+          <option value="production">Production</option>
+          <option value="other">Other</option>
+        </select>
+        <label class="subtle" for="anonymizeToggle">
+          <input id="anonymizeToggle" type="checkbox" />
+          Anonymize exports
+        </label>
+      </div>
+
+      <div class="dashboard">
+        <h2>Open Tabs Dashboard</h2>
+        <div id="tabsSummary" class="subtle">Scanning tabs...</div>
+        <div id="tabsList"></div>
+      </div>
+    </div>
     <script src="popup.js"></script>
   </body>
 </html>
