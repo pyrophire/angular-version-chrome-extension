@@ -6,16 +6,16 @@
     <title>Angular Inspector</title>
     <style>
       :root {
-        --bg: #f7f5ef;
-        --card: #fffef9;
-        --ink: #1e2330;
-        --muted: #626a7a;
-        --accent: #006d77;
-        --accent-strong: #005c64;
-        --warn: #b45309;
-        --danger: #b91c1c;
-        --ok: #166534;
-        --border: #d9d3c5;
+        --bg: #0f1117;
+        --card: #171b24;
+        --ink: #f5f7ff;
+        --muted: #a4acc2;
+        --accent: #ff8a1f;
+        --accent-strong: #e26f00;
+        --warn: #f59e0b;
+        --danger: #f87171;
+        --ok: #34d399;
+        --border: #2d3445;
       }
 
       body {
@@ -24,7 +24,7 @@
         margin: 0;
         padding: 14px;
         font-family: "Avenir Next", "Segoe UI", sans-serif;
-        background: radial-gradient(circle at top left, #fff9d8, var(--bg) 45%);
+        background: radial-gradient(circle at top left, #2b1b07, var(--bg) 48%);
         color: var(--ink);
       }
 
@@ -33,7 +33,7 @@
         border: 1px solid var(--border);
         border-radius: 12px;
         padding: 12px;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
       }
 
       h1 {
@@ -108,16 +108,20 @@
 
       button {
         border: 1px solid var(--border);
-        background: #fff;
+        background: #202738;
         color: var(--ink);
         border-radius: 8px;
         padding: 6px 8px;
         cursor: pointer;
       }
 
+      button:hover {
+        background: #293248;
+      }
+
       button.primary {
         background: var(--accent);
-        color: #fff;
+        color: #1a0e00;
         border-color: var(--accent);
       }
 
@@ -129,6 +133,8 @@
         border: 1px solid var(--border);
         border-radius: 8px;
         padding: 6px;
+        background: #202738;
+        color: var(--ink);
       }
 
       .dashboard {
@@ -144,7 +150,7 @@
         border-radius: 8px;
         padding: 6px;
         margin-bottom: 6px;
-        background: #fff;
+        background: #202738;
       }
 
       .tab-item strong {
@@ -211,7 +217,8 @@
         <select id="envFilter">
           <option value="all">All</option>
           <option value="local">Local</option>
-          <option value="staging">Staging</option>
+          <option value="development">Development</option>
+          <option value="test">Test</option>
           <option value="production">Production</option>
           <option value="other">Other</option>
         </select>
