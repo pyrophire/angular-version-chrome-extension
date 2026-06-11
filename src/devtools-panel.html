@@ -5,11 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Angular Inspector Panel</title>
     <style>
+      :root {
+        --bg: #0f1117;
+        --panel: #171b24;
+        --surface: #202738;
+        --ink: #f5f7ff;
+        --muted: #a4acc2;
+        --accent: #ff8a1f;
+        --accent-strong: #e26f00;
+        --border: #2d3445;
+      }
+
       body {
         margin: 0;
         padding: 12px;
         font-family: "Avenir Next", "Segoe UI", sans-serif;
-        background: #f8fafc;
+        background: radial-gradient(circle at top left, #2b1b07, var(--bg) 45%);
+        color: var(--ink);
       }
 
       .toolbar {
@@ -17,25 +29,35 @@
         gap: 8px;
         align-items: center;
         margin-bottom: 10px;
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 8px;
       }
 
       button {
-        border: 1px solid #cbd5e1;
+        border: 1px solid var(--accent);
         border-radius: 6px;
         padding: 6px 10px;
-        background: #ffffff;
+        background: var(--accent);
+        color: #1a0e00;
         cursor: pointer;
+      }
+
+      button:hover {
+        background: var(--accent-strong);
       }
 
       #status {
         font-size: 12px;
-        color: #334155;
+        color: var(--muted);
       }
 
       pre {
         margin: 0;
-        border: 1px solid #cbd5e1;
-        background: #ffffff;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        color: var(--ink);
         border-radius: 8px;
         padding: 10px;
         font-size: 12px;

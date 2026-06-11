@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "Phire Angular Version Inspector",
-    "version": "2.0.1",
+    "version": "2.0.2",
     "description": "Inspects the web page for the Angular version.",
     "permissions": [
         "activeTab",

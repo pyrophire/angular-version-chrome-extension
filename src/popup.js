@@ -70,7 +70,7 @@ function setStatus(message, tone) {
  * Classifies environment type based on host.
  *
  * @param {string} host - Page host
- * @returns {"local" | "staging" | "production" | "other"} Environment classification
+ * @returns {"local" | "development" | "test" | "production" | "other"} Environment classification
  */
 function classifyEnvironment(host) {
   const normalizedHost = (host || "").toLowerCase();
@@ -84,13 +84,11 @@ function classifyEnvironment(host) {
   ) {
     return "local";
   }
-  if (
-    normalizedHost.includes("staging") ||
-    normalizedHost.includes("stage") ||
-    normalizedHost.includes("qa") ||
-    normalizedHost.includes("dev")
-  ) {
-    return "staging";
+  if (normalizedHost.startsWith("dev-")) {
+    return "development";
+  }
+  if (normalizedHost.startsWith("test-")) {
+    return "test";
   }
   if (normalizedHost.includes("chrome") || normalizedHost.includes("newtab")) {
     return "other";
